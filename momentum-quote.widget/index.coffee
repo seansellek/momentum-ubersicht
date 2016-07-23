@@ -1,28 +1,49 @@
 command: "/usr/local/bin/node ~/Development/momentify/app.js"
 
 render: (o) -> """
-<blockquote class="quote" id="shortquote" style="opacity: 1;">
-  <div class="quote-body">
-    <span class="quote-body-text"></span>
-      <br/>
-    <span class="quote-source-text"></span>
-  </div>
-</blockquote>
+<div class="quote-container">
+  <blockquote class="quote" id="shortquote" style="opacity: 1;">
+    <div class="quote-body">
+      <span class="quote-body-text"></span>
+        <br/>
+      <span class="quote-source-text"></span>
+    </div>
+  </blockquote>
+</div>
+<div class="bg-info-container">
+  <span class="title"></span>
+</div>
+
 """
 
-update: (output, dom) -> 
-  quoteInfo = JSON.parse(output)
+update: (output, dom) ->
+  data = JSON.parse(output)
+  quoteInfo = data.quote
+  bginfo = data.bg
   $(dom).find('.quote-body-text').html("“" + quoteInfo.body + "”")
   $(dom).find('.quote-source-text').html(quoteInfo.source)
+  $(dom).find('.bg-info-container .title').html(bginfo.title)
 
 
 
 style: """
-color: white
 width: 100%
-bottom: 0
-text-align: center
+height: 100%
+color: white
 font-family: "Helvetica Neue"
+
+.quote-container
+  width: 100%
+  position: absolute
+  bottom: 0
+  text-align: center
+
+.bg-info-container
+  opacity: .8
+  width: 240px
+  position: absolute
+  bottom: 15px
+  left: 50px
 
 .quote 
     height: 57px
